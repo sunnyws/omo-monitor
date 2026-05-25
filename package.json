@@ -1,0 +1,62 @@
+{
+  "name": "oh-my-opencode-monitor",
+  "version": "1.0.0",
+  "description": "Terminal TUI monitor for OpenCode + oh-my-openagent (omo)",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "omo-monitor": "dist/cli.js"
+  },
+  "scripts": {
+    "dev": "tsx src/cli.ts",
+    "build": "tsc",
+    "start": "node dist/cli.js",
+    "test": "jest",
+    "lint": "eslint src --ext .ts,.tsx",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "opencode",
+    "oh-my-openagent",
+    "omo",
+    "monitor",
+    "tui",
+    "terminal",
+    "cli",
+    "ai",
+    "agent"
+  ],
+  "author": "sunny",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sunny/oh-my-opencode-monitor.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sunny/oh-my-opencode-monitor/issues"
+  },
+  "homepage": "https://github.com/sunny/oh-my-opencode-monitor#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "better-sqlite3": "^9.4.3",
+    "chalk": "^5.3.0",
+    "commander": "^11.1.0",
+    "conf": "^11.0.0",
+    "figures": "^5.0.0",
+    "ink": "^4.4.1",
+    "ink-select-input": "^5.0.0",
+    "ink-text-input": "^5.0.0",
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.0",
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.2.0",
+    "eslint": "^8.0.0",
+    "jest": "^29.0.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.0"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "refresh": {
+    "interval": 2000,
+    "autoRefresh": true
+  },
+  "display": {
+    "theme": "dark",
+    "showTimestamp": true,
+    "maxLogLines": 100,
+    "dateFormat": "HH:mm:ss"
+  },
+  "keybindings": {
+    "quit": "q",
+    "refresh": "r",
+    "selectNext": "j",
+    "selectPrev": "k",
+    "details": "return",
+    "search": "/",
+    "tab": "tab"
+  },
+  "database": {
+    "path": "~/.local/share/opencode/opencode.db"
+  },
+  "logs": {
+    "maxEntries": 100,
+    "showToolInput": true,
+    "showToolOutput": false
+  }
+}
