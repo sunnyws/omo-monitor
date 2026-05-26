@@ -12,7 +12,9 @@ export interface Agent {
   model: string;                 // 使用的模型
   provider: string;              // 模型提供商
   startTime: Date;               // 开始时间
+  lastActivity: Date;            // 最后活动时间
   duration: number;              // 运行时长 (ms)
+  totalDuration: number;         // 总耗时 (ms) - 从开始到最后活动
   tokens: TokenUsage;            // Token 使用量
   toolCalls: ToolCall[];         // 工具调用列表
   fileOps: FileOperation[];      // 文件操作列表

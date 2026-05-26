@@ -14,6 +14,7 @@ export interface Session {
   mainAgent: string;
   model: string;
   startTime: Date;
+  lastActivity: Date;  // 最后活动时间
   duration: number;
   isRunning: boolean;
   agentCount: number;
@@ -171,7 +172,7 @@ export class DatabaseService {
           if (role === 'assistant' && modelID) {
             activities.push({
               time: new Date(msg.time_created),
-              tool: '🤖 模型调用',
+              tool: 'model',
               status: 'completed',
               info: modelID,
             });
@@ -276,6 +277,7 @@ export class DatabaseService {
       mainAgent: row.agent || 'unknown',
       model: modelData.id || 'unknown',
       startTime: new Date(startTime),
+      lastActivity: new Date(lastUpdate),  // 最后活动时间
       duration: now - startTime,
       isRunning,
       agentCount: 1,
@@ -299,6 +301,7 @@ export class DatabaseService {
     const startTime = row.time_created;
     const lastUpdate = row.time_updated || startTime;
     const isRunning = !row.time_archived && (now - lastUpdate < 30000);
+    const totalDuration = lastUpdate - startTime;  // 从开始到最后活动的总耗时
 
     return {
       id: row.id,
@@ -308,7 +311,9 @@ export class DatabaseService {
       model: modelData.id || 'unknown',
       provider: modelData.providerID || 'unknown',
       startTime: new Date(startTime),
+      lastActivity: new Date(lastUpdate),  // 最后活动时间
       duration: now - startTime,
+      totalDuration: totalDuration,        // 总耗时
       tokens: {
         input: row.tokens_input || 0,
         output: row.tokens_output || 0,
@@ -379,28 +384,25 @@ export class DatabaseService {
           if (output) info += ` → ${output.substring(0, 80)}`;
         }
       } else if (type === 'reasoning') {
-        // Model reasoning - 完整文本
-        tool = '🧠 推理';
+        tool = 'reasoning';
         info = (data.text || '').replace(/\n/g, ' ').substring(0, 150);
       } else if (type === 'text') {
-        // Text output
         const text = (data.text || '').replace(/\n/g, ' ');
-        // 跳过 system-reminder 这类系统消息
         if (text.includes('system-reminder') || text.includes('SYSTEM DIRECTIVE')) {
-          tool = '📋 系统消息';
+          tool = 'system';
           info = text.substring(0, 100);
         } else {
-          tool = '💬 输出';
+          tool = 'output';
           info = text.substring(0, 150);
         }
       } else if (type === 'step-start') {
-        tool = '▶ 步骤';
-        info = `Step ${data.step || ''} 开始`;
+        tool = 'step';
+        info = `step ${data.step || ''} start`;
       } else if (type === 'step-finish') {
-        tool = '✓ 步骤';
-        info = `Step ${data.step || ''} 完成`;
+        tool = 'step';
+        info = `step ${data.step || ''} done`;
       } else {
-        tool = `📋 ${type}`;
+        tool = type || 'unknown';
         info = '';
       }
 

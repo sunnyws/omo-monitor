@@ -3,8 +3,8 @@
  */
 
 import { Command } from 'commander';
-import { ConfigManager } from './services';
-import { startApp } from './index';
+import { ConfigManager } from './services/config.js';
+import { startApp } from './index.js';
 
 const program = new Command();
 

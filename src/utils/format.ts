@@ -77,3 +77,46 @@ export function getStatusIcon(status: string): string {
 export function getToolStatusIcon(status: string): string {
   return status === 'completed' ? '✅' : '❌';
 }
+
+/**
+ * Calculate display width of a string (considering Chinese characters)
+ * Chinese characters typically take 2 columns width
+ */
+export function getDisplayWidth(str: string): number {
+  let width = 0;
+  for (const char of str) {
+    // Check if character is Chinese/CJK
+    if (/[\u4e00-\u9fff\u3400-\u4dbf\uf900-\ufaff]/.test(char)) {
+      width += 2;
+    } else {
+      width += 1;
+    }
+  }
+  return width;
+}
+
+/**
+ * Truncate string to fit within display width
+ */
+export function truncateToWidth(str: string, maxWidth: number): string {
+  let width = 0;
+  let result = '';
+  for (const char of str) {
+    const charWidth = /[\u4e00-\u9fff\u3400-\u4dbf\uf900-\ufaff]/.test(char) ? 2 : 1;
+    if (width + charWidth > maxWidth - 3) {
+      return result + '...';
+    }
+    result += char;
+    width += charWidth;
+  }
+  return result;
+}
+
+/**
+ * Pad string to display width (considering Chinese characters)
+ */
+export function padToWidth(str: string, targetWidth: number): string {
+  const currentWidth = getDisplayWidth(str);
+  const padding = Math.max(0, targetWidth - currentWidth);
+  return str + ' '.repeat(padding);
+}

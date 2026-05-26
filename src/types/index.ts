@@ -2,6 +2,6 @@
  * Type definitions index
  */
 
-export * from './agent';
-export * from './config';
-export * from './database';
+export * from './agent.js';
+export * from './config.js';
+export * from './database.js';

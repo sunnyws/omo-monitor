@@ -4,7 +4,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import { Config, DEFAULT_CONFIG } from '../types/config';
+import { Config, DEFAULT_CONFIG } from '../types/config.js';
 
 export class ConfigManager {
   private config: Config;
